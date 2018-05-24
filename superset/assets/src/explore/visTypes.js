@@ -1725,6 +1725,18 @@ export const visTypes = {
       sections.NVD3TimeSeries[1],
     ],
   },
+    radar: {
+        label: t('Radar'),
+        controlPanelSections: [
+            {
+                label: t('Query'),
+                expanded: true,
+                controlSetRows: [
+                    ['metric'],
+                ],
+            },
+        ],
+    },
 };
 
 export default visTypes;

@@ -1892,17 +1892,25 @@ def load_loads_data():
         "viz_type": "percentage_exceedence"
     }
     print('Creating Loads Slice')
-    slc = Slice(
+    slices = [Slice(
         slice_name="Percentage Exceedence",
         viz_type='percentage_exceedence',
         datasource_type='table',
         datasource_id=db.session.query(TBL).filter_by(table_name='loads').first().id,
         params=get_slice_json(defaults)
-    )
-    merge_slice(slc)
+    ),
+        Slice(
+            slice_name="Radar",
+            viz_type='radar',
+            datasource_type='table',
+            datasource_id=db.session.query(TBL).filter_by(table_name='loads').first().id,
+            params=get_slice_json(defaults)
+        )
+    ]
+    for slc in slices:
+        merge_slice(slc)
     slug = "world_health"
     dash = db.session.query(Dash).filter_by(slug=slug).first()
-    dash.slices.append(slc)
+    dash.slices.extend(slices)
     db.session.merge(dash)
     db.session.commit()
-

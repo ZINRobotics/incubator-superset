@@ -1,7 +1,6 @@
 import d3 from 'd3';
 import nv from 'nvd3';
 
-
 function percentageExceedenceVis(slice, payload) {
     const div = d3.select(slice.selector);
     // Define the percentage bounds that define color from red to green

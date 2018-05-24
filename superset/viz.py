@@ -2542,6 +2542,33 @@ class PartitionViz(NVD3TimeSeriesViz):
         return self.nest_values(levels)
 
 
+class RadarViz(BaseViz):
+
+    """percentage exceedence viz"""
+
+    viz_type = 'radar'
+    verbose_name = _('Radar')
+    credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
+
+    def query_obj(self):
+        d = super(RadarViz, self).query_obj()
+        metric = self.form_data.get('metric')
+        if not metric:
+            raise Exception(_('Pick a metric!'))
+        d['metrics'] = [self.form_data.get('metric')]
+        self.form_data['metric'] = metric
+        return d
+
+    def get_data(self, df):
+        vis_data = {"L1": [], "L2": [], "L3": []}
+        [vis_data[row[1]].append([row[2]]) for row in df.values]
+        for key, value in vis_data.items():
+            values = vis_data[key]
+            index = int(key.split("L")[1]) - 1
+            [d.insert(0, index) for d in values]
+        return vis_data
+
+
 viz_types = {
     o.viz_type: o for o in globals().values()
     if (
