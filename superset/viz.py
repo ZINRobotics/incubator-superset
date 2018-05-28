@@ -2602,7 +2602,7 @@ class PartitionViz(NVD3TimeSeriesViz):
 
 class RadarViz(BaseViz):
 
-    """percentage exceedence viz"""
+    """Radar viz (Vector Phase Diagram)"""
 
     viz_type = 'radar'
     verbose_name = _('Radar')
@@ -2618,11 +2618,11 @@ class RadarViz(BaseViz):
         return d
 
     def get_data(self, df):
-        vis_data = {"L1": [], "L2": [], "L3": []}
+        vis_data = {'L1': [], 'L2': [], 'L3': []}
         [vis_data[row[1]].append([row[2]]) for row in df.values]
         for key, value in vis_data.items():
             values = vis_data[key]
-            index = int(key.split("L")[1]) - 1
+            index = int(key.split('L')[1]) - 1
             [d.insert(0, index) for d in values]
         return vis_data
 
