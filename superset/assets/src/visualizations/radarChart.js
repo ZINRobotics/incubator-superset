@@ -42,8 +42,8 @@ function RadarChart(id, keys, data, options) {
     const allAxis = keys, // Names of each axis
         total = allAxis.length, // The number of different axes
         radius = Math.min(cfg.w / 2, cfg.h / 2), // Radius of the outermost circle
-        Format = d3.format('.f'), // formatting
         angleSlice = Math.PI * 2 / total; // The width in radians of each 'slice'
+        // angleSlice = 360 / total; // The width in radians of each 'slice'
     // Scale for the radius
     const rScale = d3.scale.linear()
         .range([0, radius])
@@ -105,7 +105,7 @@ function RadarChart(id, keys, data, options) {
         .style('font-size', '10px')
         .attr('fill', '#737373')
         .text(function (d, i) {
-            return Format(maxValue * d / cfg.levels);
+            return (maxValue * d / cfg.levels).toFixed(2);
         });
     /*
     /////////////////////////////////////////////////////////
@@ -160,7 +160,9 @@ function RadarChart(id, keys, data, options) {
             return rScale(d[1]);
         })
         .angle(function (d, i) {
-            return d[0] * angleSlice;
+            // return d[0] * angleSlice;
+            // debugger;
+            return (d[2] * Math.PI / 180) + (angleSlice * d[0]);
         });
 
     if (cfg.roundStrokes) {
@@ -218,10 +220,10 @@ function RadarChart(id, keys, data, options) {
         .attr('class', 'radarCircle')
         .attr('r', cfg.dotRadius)
         .attr('cx', function (d, i) {
-            return rScale(d[1]) * Math.cos(angleSlice * d[0] - Math.PI / 2);
+            return rScale(d[1]) * Math.cos((d[2] * Math.PI / 180) + (angleSlice * d[0]) - Math.PI / 2);
         })
         .attr('cy', function (d, i) {
-            return rScale(d[1]) * Math.sin(angleSlice * d[0] - Math.PI / 2);
+            return rScale(d[1]) * Math.sin((d[2] * Math.PI / 180) + (angleSlice * d[0]) - Math.PI / 2);
         })
         .style('fill', function (d, i, j) {
             return cfg.color(j);
@@ -246,10 +248,10 @@ function RadarChart(id, keys, data, options) {
         .attr('class', 'radarInvisibleCircle')
         .attr('r', cfg.dotRadius * 1.5)
         .attr('cx', function (d, i) {
-            return rScale(d[1]) * Math.cos(angleSlice * d[0] - Math.PI / 2);
+            return rScale(d[1]) * Math.cos((d[2] * Math.PI / 180) + (angleSlice * d[0]) - Math.PI / 2);
         })
         .attr('cy', function (d, i) {
-            return rScale(d[1]) * Math.sin(angleSlice * d[0] - Math.PI / 2);
+            return rScale(d[1]) * Math.sin((d[2] * Math.PI / 180) + (angleSlice * d[0]) - Math.PI / 2);
         })
         .style('fill', 'none')
         .style('pointer-events', 'all')
@@ -259,7 +261,7 @@ function RadarChart(id, keys, data, options) {
             tooltip
                 .attr('x', newX)
                 .attr('y', newY)
-                .text(Format(d[1]))
+                .text(d[1].toFixed(2) + ', ' + d[2].toFixed(2))
                 .transition().duration(200)
                 .style('opacity', 1);
         })

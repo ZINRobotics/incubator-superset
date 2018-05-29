@@ -1942,25 +1942,56 @@ def load_loads_data():
         "viz_type": "percentage_exceedence"
     }
     print('Creating Loads Slice')
-    slices = [Slice(
+    slc = Slice(
         slice_name="Flow Duration Curve",
         viz_type='percentage_exceedence',
         datasource_type='table',
         datasource_id=db.session.query(TBL).filter_by(table_name='loads').first().id,
         params=get_slice_json(defaults)
-    ),
-        Slice(
+    )
+    merge_slice(slc)
+    slug = "misc_charts"
+    dash = db.session.query(Dash).filter_by(slug=slug).first()
+    dash.slices.append(slc)
+    db.session.merge(dash)
+    db.session.commit()
+
+
+def load_phase_vector_data():
+    tbl_name = 'phase_vector'
+    with gzip.open(os.path.join(DATA_FOLDER, 'phase_vector.csv.gz')) as f:
+        df = pd.read_csv(f, sep=',', encoding='latin-1')
+    df.to_sql(
+        tbl_name,
+        db.engine,
+        if_exists='replace',
+        chunksize=500,
+        index=False)
+    print("Creating table {} reference".format(tbl_name))
+    tbl = db.session.query(TBL).filter_by(table_name=tbl_name).first()
+    if not tbl:
+        tbl = TBL(table_name=tbl_name)
+    tbl.description = "Phase Vector Data"
+    tbl.database = utils.get_or_create_main_db()
+    db.session.merge(tbl)
+    db.session.commit()
+    tbl.fetch_metadata()
+    defaults = {
+        "groupby": ["date", "name"],
+        "metric": "sum__close",
+        "viz_type": "radar"
+    }
+    print('Creating phase-vector Slice')
+    slice = Slice(
             slice_name="Radar",
             viz_type='radar',
             datasource_type='table',
-            datasource_id=db.session.query(TBL).filter_by(table_name='loads').first().id,
+            datasource_id=db.session.query(TBL).filter_by(table_name='{}'.format(tbl_name)).first().id,
             params=get_slice_json(defaults)
         )
-    ]
-    for slc in slices:
-        merge_slice(slc)
+    merge_slice(slice)
     slug = "misc_charts"
     dash = db.session.query(Dash).filter_by(slug=slug).first()
-    dash.slices.extend(slices)
+    dash.slices.append(slice)
     db.session.merge(dash)
     db.session.commit()

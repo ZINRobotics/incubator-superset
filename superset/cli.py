@@ -148,56 +148,59 @@ def load_examples(load_test_data):
     """Loads a set of Slices and Dashboards and a supporting dataset """
     print('Loading examples into {}'.format(db))
 
-    data.load_css_templates()
+    # data.load_css_templates()
+    #
+    # print('Loading energy related dataset')
+    # data.load_energy()
+    #
+    # print("Loading [World Bank's Health Nutrition and Population Stats]")
+    # data.load_world_bank_health_n_pop()
+    #
+    # print('Loading [Birth names]')
+    # data.load_birth_names()
+    #
+    # print('Loading [Random time series data]')
+    # data.load_random_time_series_data()
+    #
+    # print('Loading [Random long/lat data]')
+    # data.load_long_lat_data()
+    #
+    # print('Loading [Country Map data]')
+    # data.load_country_map_data()
+    #
+    # print('Loading [Multiformat time series]')
+    # data.load_multiformat_time_series_data()
+    #
+    # print('Loading [Misc Charts] dashboard')
+    # data.load_misc_dashboard()
+    #
+    # print('Loading [Paris GeoJson]')
+    # data.load_paris_iris_geojson()
+    #
+    # print('Loading [San Francisco population polygons]')
+    # data.load_sf_population_polygons()
+    #
+    # print('Loading [Flights data]')
+    # data.load_flights()
+    #
+    # print('Loading [BART lines]')
+    # data.load_bart_lines()
+    #
+    # print('Loading [Multi Line]')
+    # data.load_multi_line()
+    #
+    # if load_test_data:
+    #     print('Loading [Unicode test data]')
+    #     data.load_unicode_test_data()
+    #
+    # print('Loading DECK.gl demo')
+    # data.load_deck_dash()
+    #
+    # print('Loading Loads data')
+    # data.load_loads_data()
 
-    print('Loading energy related dataset')
-    data.load_energy()
-
-    print("Loading [World Bank's Health Nutrition and Population Stats]")
-    data.load_world_bank_health_n_pop()
-
-    print('Loading [Birth names]')
-    data.load_birth_names()
-
-    print('Loading [Random time series data]')
-    data.load_random_time_series_data()
-
-    print('Loading [Random long/lat data]')
-    data.load_long_lat_data()
-
-    print('Loading [Country Map data]')
-    data.load_country_map_data()
-
-    print('Loading [Multiformat time series]')
-    data.load_multiformat_time_series_data()
-
-    print('Loading [Misc Charts] dashboard')
-    data.load_misc_dashboard()
-
-    print('Loading [Paris GeoJson]')
-    data.load_paris_iris_geojson()
-
-    print('Loading [San Francisco population polygons]')
-    data.load_sf_population_polygons()
-
-    print('Loading [Flights data]')
-    data.load_flights()
-
-    print('Loading [BART lines]')
-    data.load_bart_lines()
-
-    print('Loading [Multi Line]')
-    data.load_multi_line()
-
-    if load_test_data:
-        print('Loading [Unicode test data]')
-        data.load_unicode_test_data()
-
-    print('Loading DECK.gl demo')
-    data.load_deck_dash()
-
-    print('Loading Loads data')
-    data.load_loads_data()
+    print('Loading phase-vector data')
+    data.load_phase_vector_data()
 
 
 @manager.option(

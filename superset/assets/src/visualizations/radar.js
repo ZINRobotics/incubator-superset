@@ -46,7 +46,7 @@ function radarVis(slice, payload) {
         w: width,
         h: height,
         margin,
-        maxValue: 700,
+        maxValue: 0.07,
         levels: 5,
         roundStrokes: true,
         color,

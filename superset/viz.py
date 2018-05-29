@@ -2610,19 +2610,19 @@ class RadarViz(BaseViz):
 
     def query_obj(self):
         d = super(RadarViz, self).query_obj()
-        metric = self.form_data.get('metric')
-        if not metric:
-            raise Exception(_('Pick a metric!'))
-        d['metrics'] = [self.form_data.get('metric')]
-        self.form_data['metric'] = metric
+        # metrics = self.form_data.get('metrics')
+        # if not metrics:
+        #     raise Exception(_('Pick metrics!'))
+        # d['metrics'] = metrics
         return d
 
     def get_data(self, df):
-        vis_data = {'L1': [], 'L2': [], 'L3': []}
-        [vis_data[row[1]].append([row[2]]) for row in df.values]
-        for key, value in vis_data.items():
-            values = vis_data[key]
-            index = int(key.split('L')[1]) - 1
+        # shape of data: [[date, name, angle, value]...]
+        indexes= {'Va': 0, 'Vb': 1, 'Vc': 2}
+        vis_data = {'Va': [], 'Vb': [], 'Vc': []}
+        [vis_data[row[1].split('.')[-1]].append([row[2], row[3]]) for row in df.values]
+        for key, values in vis_data.items():
+            index = indexes[key]
             [d.insert(0, index) for d in values]
         return vis_data
 
