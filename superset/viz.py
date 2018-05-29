@@ -2617,13 +2617,14 @@ class RadarViz(BaseViz):
         return d
 
     def get_data(self, df):
-        # shape of data: [[date, name, angle, value]...]
+        # shape of df frame: [[date, name, value, angle]...]
         indexes= {'Va': 0, 'Vb': 1, 'Vc': 2}
         vis_data = {'Va': [], 'Vb': [], 'Vc': []}
-        [vis_data[row[1].split('.')[-1]].append([row[2], row[3]]) for row in df.values]
+        [vis_data[row[1].split('.')[-1]].append({'value': row[2], 'phase': row[3]}) for row in df.values]
         for key, values in vis_data.items():
             index = indexes[key]
-            [d.insert(0, index) for d in values]
+            for d in values:
+                d['index'] = index
         return vis_data
 
 

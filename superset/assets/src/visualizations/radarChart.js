@@ -38,7 +38,7 @@ function RadarChart(id, keys, data, options) {
     } // if
     // If the supplied maxValue is smaller than the actual one, replace by the max in the data
     const maxValue = Math.max(cfg.maxValue, d3.max(data,
-        function (i) { return d3.max(i.map(function (o) { return o[1]; }))}));
+        function (i) { return d3.max(i.map(function (o) { return o.value; }))}));
     const allAxis = keys, // Names of each axis
         total = allAxis.length, // The number of different axes
         radius = Math.min(cfg.w / 2, cfg.h / 2), // Radius of the outermost circle
@@ -157,12 +157,12 @@ function RadarChart(id, keys, data, options) {
     const radarLine = d3.svg.line.radial()
         .interpolate('linear-closed')
         .radius(function (d) {
-            return rScale(d[1]);
+            return rScale(d.value);
         })
         .angle(function (d, i) {
             // return d[0] * angleSlice;
             // debugger;
-            return (d[2] * Math.PI / 180) + (angleSlice * d[0]);
+            return (d.phase * Math.PI / 180) + (angleSlice * d.index);
         });
 
     if (cfg.roundStrokes) {
@@ -220,10 +220,10 @@ function RadarChart(id, keys, data, options) {
         .attr('class', 'radarCircle')
         .attr('r', cfg.dotRadius)
         .attr('cx', function (d, i) {
-            return rScale(d[1]) * Math.cos((d[2] * Math.PI / 180) + (angleSlice * d[0]) - Math.PI / 2);
+            return rScale(d.value) * Math.cos((d.phase * Math.PI / 180) + (angleSlice * d.index) - Math.PI / 2);
         })
         .attr('cy', function (d, i) {
-            return rScale(d[1]) * Math.sin((d[2] * Math.PI / 180) + (angleSlice * d[0]) - Math.PI / 2);
+            return rScale(d.value) * Math.sin((d.phase * Math.PI / 180) + (angleSlice * d.index) - Math.PI / 2);
         })
         .style('fill', function (d, i, j) {
             return cfg.color(j);
@@ -248,10 +248,10 @@ function RadarChart(id, keys, data, options) {
         .attr('class', 'radarInvisibleCircle')
         .attr('r', cfg.dotRadius * 1.5)
         .attr('cx', function (d, i) {
-            return rScale(d[1]) * Math.cos((d[2] * Math.PI / 180) + (angleSlice * d[0]) - Math.PI / 2);
+            return rScale(d.value) * Math.cos((d.phase * Math.PI / 180) + (angleSlice * d.index) - Math.PI / 2);
         })
         .attr('cy', function (d, i) {
-            return rScale(d[1]) * Math.sin((d[2] * Math.PI / 180) + (angleSlice * d[0]) - Math.PI / 2);
+            return rScale(d.value) * Math.sin((d.phase * Math.PI / 180) + (angleSlice * d.index) - Math.PI / 2);
         })
         .style('fill', 'none')
         .style('pointer-events', 'all')
@@ -261,7 +261,7 @@ function RadarChart(id, keys, data, options) {
             tooltip
                 .attr('x', newX)
                 .attr('y', newY)
-                .text(d[1].toFixed(2) + ', ' + d[2].toFixed(2))
+                .text(d.value.toFixed(4) + ', ' + d.phase.toFixed(2))
                 .transition().duration(200)
                 .style('opacity', 1);
         })

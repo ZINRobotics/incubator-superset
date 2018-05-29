@@ -10,22 +10,22 @@ function radarVis(slice, payload) {
     // Format of Data should be as following, 0,1,2 represents number of axis
     // values = [
     //     [
-    //         [0, 100],
-    //         [0, 200],
-    //         [0, 300],
-    //         [0, 400]
+    //         {'index': 0, 'value': 0.05, 'phase': 60.10},
+    //         {'index': 0, 'value': 0.02, 'phase': 90.50},
+    //         {'index': 0, 'value': 0.03, 'phase': 128},
+    //         {'index': 0, 'value': 0.04, 'phase': 30.27},
     //     ],
     //     [
-    //         [1, 150],
-    //         [1, 250],
-    //         [1, 350],
-    //         [1, 450]
+    //         {'index': 1, 'value': 0.05, 'phase': 60.10},
+    //         {'index': 1, 'value': 0.02, 'phase': 90.50},
+    //         {'index': 1, 'value': 0.03, 'phase': 128},
+    //         {'index': 1, 'value': 0.04, 'phase': 30.27},
     //     ],
     //     [
-    //         [2, 80],
-    //         [2, 170],
-    //         [2, 270],
-    //         [2, 370]
+    //         {'index': 2, 'value': 0.05, 'phase': 60.10},
+    //         {'index': 2, 'value': 0.02, 'phase': 90.50},
+    //         {'index': 2, 'value': 0.03, 'phase': 128},
+    //         {'index': 2, 'value': 0.04, 'phase': 30.27},
     //     ]
     // ];
 
