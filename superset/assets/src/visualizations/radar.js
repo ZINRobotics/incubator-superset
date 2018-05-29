@@ -33,7 +33,7 @@ function radarVis(slice, payload) {
     keys.forEach((key) => {
         values.push(data[key]);
     });
-    const margin = { top: 100, right: 100, bottom: 100, left: 50 };
+    const margin = { top: 55, right: 100, bottom: 30, left: 50 };
     const width = Math.min(slice.width() + 50, window.innerWidth - 10) - margin.left - margin.right;
     const height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
     const color = d3.scale.ordinal()
