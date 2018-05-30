@@ -97,8 +97,10 @@ function RadarChart(id, keys, data, options) {
         .data(d3.range(1, (cfg.levels + 1)).reverse())
         .enter().append('text')
         .attr('class', 'axisLabel')
-        .attr('x', 4)
-        .attr('y', function (d) {
+        .attr('x', function (d, i) {
+            return -5;
+        })
+        .attr('y', function (d, i) {
             return -d * radius / cfg.levels;
         })
         .attr('dy', '0.4em')
@@ -123,10 +125,10 @@ function RadarChart(id, keys, data, options) {
         .attr('x1', 0)
         .attr('y1', 0)
         .attr('x2', function (d, i) {
-            return rScale(maxValue * 1.1) * Math.cos(angleSlice * i - Math.PI / 2);
+            return rScale(maxValue * 1.1) * Math.cos(angleSlice * i);
         })
         .attr('y2', function (d, i) {
-            return rScale(maxValue * 1.1) * Math.sin(angleSlice * i - Math.PI / 2);
+            return rScale(maxValue * 1.1) * Math.sin(angleSlice * i);
         })
         .attr('class', 'line')
         .style('stroke', 'white')
@@ -139,10 +141,10 @@ function RadarChart(id, keys, data, options) {
         .attr('text-anchor', 'middle')
         .attr('dy', '0.35em')
         .attr('x', function (d, i) {
-            return rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice * i - Math.PI / 2);
+            return rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice * i);
         })
         .attr('y', function (d, i) {
-            return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice * i - Math.PI / 2);
+            return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice * i);
         })
         .text(function (d) {
             return d;
@@ -176,30 +178,30 @@ function RadarChart(id, keys, data, options) {
         .attr('class', 'radarWrapper');
 
     // Append the backgrounds
-    blobWrapper
-        .append('path')
-        .attr('class', 'radarArea')
-        .attr('d', function (d) { return radarLine(d); })
-        .style('fill', function (d, i) {
-            return cfg.color(i);
-        })
-        .style('fill-opacity', cfg.opacityArea)
-        .on('mouseover', function (d, i) {
-            // Dim all blobs
-            d3.selectAll('.radarArea')
-                .transition().duration(200)
-                .style('fill-opacity', 0.1);
-            // Bring back the hovered over blob
-            d3.select(this)
-                .transition().duration(200)
-                .style('fill-opacity', 0.7);
-        })
-        .on('mouseout', function () {
-            // Bring back all blobs
-            d3.selectAll('.radarArea')
-                .transition().duration(200)
-                .style('fill-opacity', cfg.opacityArea);
-        });
+    // blobWrapper
+    //     .append('path')
+    //     .attr('class', 'radarArea')
+    //     .attr('d', function (d) { return radarLine(d); })
+    //     .style('fill', function (d, i) {
+    //         return cfg.color(i);
+    //     })
+    //     .style('fill-opacity', cfg.opacityArea)
+    //     .on('mouseover', function (d, i) {
+    //         // Dim all blobs
+    //         d3.selectAll('.radarArea')
+    //             .transition().duration(200)
+    //             .style('fill-opacity', 0.1);
+    //         // Bring back the hovered over blob
+    //         d3.select(this)
+    //             .transition().duration(200)
+    //             .style('fill-opacity', 0.7);
+    //     })
+    //     .on('mouseout', function () {
+    //         // Bring back all blobs
+    //         d3.selectAll('.radarArea')
+    //             .transition().duration(200)
+    //             .style('fill-opacity', cfg.opacityArea);
+    //     });
 
     // Create the outlines
     // blobWrapper.append('path')
@@ -220,10 +222,10 @@ function RadarChart(id, keys, data, options) {
         .attr('class', 'radarCircle')
         .attr('r', cfg.dotRadius)
         .attr('cx', function (d, i) {
-            return rScale(d.value) * Math.cos((d.phase * Math.PI / 180) + (angleSlice * d.index) - Math.PI / 2);
+            return rScale(d.value) * Math.cos((d.phase * Math.PI / 180) + (angleSlice * d.index));
         })
         .attr('cy', function (d, i) {
-            return rScale(d.value) * Math.sin((d.phase * Math.PI / 180) + (angleSlice * d.index) - Math.PI / 2);
+            return rScale(d.value) * Math.sin((d.phase * Math.PI / 180) + (angleSlice * d.index));
         })
         .style('fill', function (d, i, j) {
             return cfg.color(j);
@@ -248,10 +250,10 @@ function RadarChart(id, keys, data, options) {
         .attr('class', 'radarInvisibleCircle')
         .attr('r', cfg.dotRadius * 1.5)
         .attr('cx', function (d, i) {
-            return rScale(d.value) * Math.cos((d.phase * Math.PI / 180) + (angleSlice * d.index) - Math.PI / 2);
+            return rScale(d.value) * Math.cos((d.phase * Math.PI / 180) + (angleSlice * d.index));
         })
         .attr('cy', function (d, i) {
-            return rScale(d.value) * Math.sin((d.phase * Math.PI / 180) + (angleSlice * d.index) - Math.PI / 2);
+            return rScale(d.value) * Math.sin((d.phase * Math.PI / 180) + (angleSlice * d.index));
         })
         .style('fill', 'none')
         .style('pointer-events', 'all')
