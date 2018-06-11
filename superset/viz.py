@@ -2610,10 +2610,6 @@ class RadarViz(BaseViz):
 
     def query_obj(self):
         d = super(RadarViz, self).query_obj()
-        # metrics = self.form_data.get('metrics')
-        # if not metrics:
-        #     raise Exception(_('Pick metrics!'))
-        # d['metrics'] = metrics
         return d
 
     def get_data(self, df):
